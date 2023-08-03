@@ -1,0 +1,44 @@
+@import './base.css';
+@import "./fontello/css/fontello.css";
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca&family=Space+Mono:wght@700&display=swap');
+
+[class*='__container'] {
+	max-width: 1130px;
+	margin: 0 auto;
+	padding: 0 10px;
+}
+
+.wrapper {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+.page {
+
+	flex: 1 1 auto;
+}
+
+.btn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 180px;
+	height: 53px;
+	line-height: 53px;
+	background: #FCB72B;
+
+	color: #FFF;
+	text-align: center;
+	font-size: 15px;
+	font-style: normal;
+	font-weight: 700;
+	transition: .2s;
+	/*line-height: 25px;*/
+}
+
+.btn:hover {
+	background: transparent;
+	border: 3px solid #FCB72B;
+	color: #FCB72B;
+}
