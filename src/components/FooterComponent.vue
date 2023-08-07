@@ -15,10 +15,10 @@
 				<nav class="footer__navigation">
 					<ul class="footer__navigation-list navigation-list">
 						<li class="navigation-list__item">
-							<a href="#">About</a>
+							<RouterLink to="/">About</RouterLink>
 						</li>
 						<li class="navigation-list__item">
-							<a href="#">Location</a>
+							<RouterLink to="/about">Location</RouterLink>
 						</li>
 						<li class="navigation-list__item">
 							<a href="#">Careers</a>
@@ -49,10 +49,11 @@ export default {
 }
 </script>
 <style
-
 	lang="scss"
 >
+@import "../assets/variables";
 .footer {
+	margin-top: 15px;
 	background: #333A44;
 	// .footer__container
 	&__container {
@@ -61,11 +62,21 @@ export default {
 		justify-content: space-between;
 		align-items: center;
 		font-family: "Space Mono", monospace;
+		@media (max-width: $mobile) {
+			flex-direction: column;
+			height: auto;
+		}
 	}
 
 	// .footer__text-wrapper
 	&__text-wrapper {
 		display: flex;
+		@media (max-width: $mobile) {
+			margin-top: 32px;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+		}
 	}
 
 	// .footer__logo
@@ -75,16 +86,29 @@ export default {
 	// .footer__navigation
 	&__navigation {
 		margin-left: 58px;
+		@media (max-width: $mobile) {
+			margin-left: 0;
+			margin-top: 20px;
+		}
 	}
 
 	// .footer__navigation-list
 	&__navigation-list {
+		@media (max-width: $mobile) {
+			flex-direction: column;
+			align-items: center;
+			row-gap: 8px;
+		}
 	}
 
 	// .footer__social-icons
 	&__social-icons {
 		display: flex;
 		column-gap: 16px;
+		@media (max-width: $mobile) {
+			margin-top: 16px;
+			margin-bottom: 20px;
+		}
 	}
 }
 

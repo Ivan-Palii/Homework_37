@@ -1,53 +1,39 @@
 <script setup>
 import HeaderComponent from "./components/HeaderComponent.vue";
+import BurgerMenuComponent from "./components/BurgerMenuComponent.vue";
 import FooterComponent from "./components/FooterComponent.vue";
-import TopicItem from "./components/TopicItem.vue";
+import {RouterView} from 'vue-router'
 import {ref} from "vue";
 
-const topics = ref([{
-	title: 'How do I download the app?',
-	text: 'To download the Scoot app, you can search “Scoot” in both the App and Google Play stores. An even simpler way to do it would be to click the relevant link at the bottom of this page and you’ll be re-directed to the correct page.',
-	active: false,
-}, {
-	title: 'Can I find a nearby Scoots?',
-	text: 'To download the Scoot app, you can search “Scoot” in both the App and Google Play stores. An even simpler way to do it would be to click the relevant link at the bottom of this page and you’ll be re-directed to the correct page.',
-	active: false,
-}, {
-	title: 'Should I wear a helmet?',
-	text: 'To download the Scoot app, you can search “Scoot” in both the App and Google Play stores. An even simpler way to do it would be to click the relevant link at the bottom of this page and you’ll be re-directed to the correct page.',
-	active: false,
-}])
 
-function refreshActive() {
-	console.log('Wrapper click')
-	topics.value.forEach(item => item.active = false)
+const showMenuState = ref(false)
+
+function showMenu() {
+	showMenuState.value = !showMenuState.value
+	console.log(showMenuState.value)
 }
-
 </script>
 <template>
-	<div class="wrapper" @click="refreshActive">
-		<HeaderComponent/>
-		<main class="page">
-			<section class="page__faq faq">
-				<div class="faq__container">
-					<h2 class="faq__title">FAQs</h2>
-					<div class="faq__wrapper">
-						<h3 class="faq__topic-title">How it works</h3>
-						<div class="faq__topic-block topic-block">
-							<TopicItem
-								v-for="item in topics"
-								:topic-item="item"
-								:clear-all-topics="refreshActive"
-							/>
-						</div>
-					</div>
-				</div>
-			</section>
-		</main>
-		<FooterComponent/>
+	<div class="wrapper">
+		<HeaderComponent
+			:show-menu-state="showMenuState"
+			@show-menu="showMenu"
+		/>
+		<div class="content">
+			<Transition>
+				<BurgerMenuComponent
+					v-if="showMenuState"
+					@show-menu="showMenu"
+				/>
+			</Transition>
+			<RouterView/>
+			<FooterComponent/>
+		</div>
 	</div>
 </template>
 <style lang="scss">
+@import "assets/variables.scss";
+
 .navigation-list {
 	display: flex;
 	column-gap: 32px;
@@ -82,8 +68,12 @@ function refreshActive() {
 		font-size: 48px;
 		font-style: normal;
 		font-weight: 700;
-		line-height: 48px; /* 100% */
+
 		letter-spacing: -2.143px;
+		@media (max-width: $mobile) {
+			font-size: 32px;
+
+		}
 	}
 
 	// .faq__wrapper
@@ -91,6 +81,16 @@ function refreshActive() {
 		display: flex;
 		column-gap: 30px;
 		margin-top: 64px;
+		@media (max-width: $tablet) {
+			flex-direction: column;
+			row-gap: 32px;
+		}
+		@media (max-width: $mobile) {
+			margin-top: 48px;
+		}
+		@media (max-width: $mobileSmall) {
+			margin-top: 24px;
+		}
 	}
 
 	// .faq__topic-title
@@ -101,6 +101,15 @@ function refreshActive() {
 		font-weight: 700;
 		line-height: 48px; /* 120% */
 		letter-spacing: -1.786px;
+		@media (max-width: $tablet) {
+			align-self: center;
+		}
+		@media (max-width: $mobile) {
+			font-size: 24px;
+			line-height: 28px; /* 120% */
+			letter-spacing: -1.071px;
+		}
+
 	}
 
 	// .faq__topic-block
@@ -116,6 +125,7 @@ function refreshActive() {
 		background: #F2F5F9;
 		padding: 32px 40px;
 		transition: .3s;
+		cursor: pointer;
 
 		&:not(:last-child) {
 			margin-bottom: 16px;
@@ -124,6 +134,7 @@ function refreshActive() {
 		&:hover, &_active {
 			background-color: #FFF4DF;
 		}
+
 		position: relative;
 	}
 
@@ -135,6 +146,14 @@ function refreshActive() {
 		font-weight: 700;
 		line-height: 28px; /* 116.667% */
 		letter-spacing: -1.071px;
+
+		@media (max-width: $mobile) {
+			font-size: 18px;
+			line-height: 24px;
+			letter-spacing: -0.804px;
+			padding-right: 20px;
+		}
+
 		&:after {
 			content: '';
 			display: block;
@@ -148,9 +167,12 @@ function refreshActive() {
 			right: 60px;
 			transform: rotate(-45deg);
 			transition: .3s;
+			@media (max-width: $mobile) {
+				right: 30px;
+			}
 		}
 
-		&_active{
+		&_active {
 			&:after {
 				transform: rotate(135deg);
 			}
@@ -166,7 +188,17 @@ function refreshActive() {
 		font-weight: 400;
 		line-height: 25px; /* 166.667% */
 		font-family: 'Lexend Deca', sans-serif;
+		overflow: hidden;
 	}
 }
 
+.v-enter-active,
+.v-leave-active {
+	transition: 0.5s;
+}
+
+.v-enter-from,
+.v-leave-to {
+	opacity: 0;
+}
 </style>

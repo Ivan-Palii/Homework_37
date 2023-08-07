@@ -13,7 +13,12 @@
 	display: flex;
 	flex-direction: column;
 }
-
+.content{
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 auto;
+	position: relative;
+}
 .page {
 
 	flex: 1 1 auto;
